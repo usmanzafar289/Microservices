@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netcoreapi-deployment
+spec:
+  selector:
+    matchLabels:
+      app: netcoreapi-pod
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: netcoreapi-pod
+    spec:
+      containers:
+        - name: netcoreapi-container
+          image: volueNativeApp:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: ASPNETCORE_URLS
+              value: http://+:80             
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+    name: netcoreapi-service
+spec:
+    ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+    selector:
+        app: netcoreapi-pod
+    type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: netcoreapi-ingress
+spec:
+    rules:
+    - http:
+        paths:
+        - path: /api/APIService
+          pathType: Prefix
+          backend:
+            service:
+              name: netcoreapi-service
+              port:
+                number: 80
+---                
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netcoreapp-deployment
+spec:
+  selector:
+    matchLabels:
+      app: netcoreapp-pod
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: netcoreapp-pod
+    spec:
+      containers:
+        - name: netcoreapi-container
+          image: netcoreapi:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP           
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+    name: netcoreapi-service
+spec:
+    ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+    selector:
+        app: netcoreapp-pod
+    type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: netcoreapp-ingress
+spec:
+    rules:
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: netcoreapp-service
+              port:
+                number: 80                    
