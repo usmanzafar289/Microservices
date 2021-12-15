@@ -3,3 +3,4 @@
 3) .NET Core API dockerized using docker desktop and map ports on docker UI. On the other hand angular app using NGINX Ingress controller. <br />
 4) Used Sqlite for database and EntityFrameworkCore for object database mapping.<br />
 5) For the API Specification configured the swagger UI. <br />
+6) Wrote yaml pipeline script for setup and build.
