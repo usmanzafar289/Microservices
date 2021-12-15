@@ -4,3 +4,5 @@
 4) Used Sqlite for database and EntityFrameworkCore for object database mapping.<br />
 5) For the API Specification configured the swagger UI. <br />
 6) Wrote yaml pipeline script for setup and build.
+7) Solution can be improved by using Design principles and patterns in order to make it more simple and elegant.
+8) A Testing framework can be build by setting up a testing pipeline to automate the process using build server such as jenkins, team city so it can be testedbefore releases. 
